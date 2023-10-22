@@ -1,0 +1,30 @@
+What is typescript ?
+Static Typed, Superset of Js to provide efficient debugging.
+adds helpful and productive features over js
+originally developed to handle large projects but cann handle smaller ones too.
+It also refers to the compiler which trans-compiles code written in ts syntax to js which is widely supported accross all browsers
+
+Types of Js features :
+1. widely suppported : adopted by all browsers
+2. es current : specified in the docs but still not adopted by all browsers
+3. es future : to be added in future to js
+With ts using all these features is possible along with other features in modern browsers
+the ts transpiler converts strong , static typed ts to plain js which any browser can understand
+
+advantages of js:
+1.catch errors at compile time instead of run time 
+2.better tooling support (refactoring, autocomplete and so on)
+3.explicitly express intent
+
+
+Start:
+1. install nodejs and then install typescript globally using npm
+2. in the root directory of your project file add the tsconfig.json file
+
+
+
+
+
+
+
+
