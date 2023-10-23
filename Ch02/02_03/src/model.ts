@@ -2,17 +2,16 @@ let displayName: string = "Jess's standing desk";
 let inventoryType: string = "furniture";
 let trackingNumber: string = "FD123455";
 let createDate: Date = new Date();
-
-type Cost = string | number;
-let originalCost: Cost = 425;
+let originalCost = 425;
 
 interface InventoryItem {
     displayName: string;
-    inventoryType: "computer" | "furniture";
+    inventoryType: string;
     readonly trackingNumber: string;
     createDate: Date;
-    originalCost?: number; //optional attribute
-    addNote?: (note: string) => string; //optional method 
+    originalCost?: number;
+
+    addNote?: (note: string) => string;
 }
 
 function getInventoryItem(trackingNumber: string): InventoryItem {
@@ -20,10 +19,11 @@ function getInventoryItem(trackingNumber: string): InventoryItem {
 }
 
 function saveInventoryItem(item: InventoryItem) {
-
 }
 
 let inventoryItem = getInventoryItem(trackingNumber);
+
+let updatedInventoryItem = inventoryItem;
 
 inventoryItem.createDate = new Date();
 

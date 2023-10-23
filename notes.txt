@@ -16,6 +16,9 @@ advantages of js:
 2.better tooling support (refactoring, autocomplete and so on)
 3.explicitly express intent
 
+/** all code along changes have been made by me in Ch01/01_01 folder **/
+
+/////Chapter 01
 
 Start:
 1. install nodejs and then install typescript globally using npm
@@ -62,13 +65,124 @@ Gradual typing
   originalCost = "A lot of money"
   However, It is not recommended to use this feature in ts unless you really need it
 
+///Chapter 02
+
+Interfaces 
+: to describe the structure/shape of an object we can use Interface
+    interface InventoryItem { //InventoryItem is the a Custom Type
+        displayName: string;
+        inventoryType: string;
+        trackingNumber: string;
+        createDate: Date;
+        originalCost: number; 
+    }
+     //Now the getInventoryItem function can be rewritten as 
+    function getInventoryItem(trackingNumber: string): InventoryItem {
+        return null;
+    }
+
+: this functionality is just to provide code reusability and to help ts
+  ts to identify types efficiently so that it can find errors for you easily.
+  This will not be reflected in the js code that is rendered.
+
+: if we create and use an object which is not explictly defined 
+  as InventoryItem but has the same structure then js will identify 
+  it to be of the type InventoryItem implicitly due to its property
+  of ducktyping( if an animal behaves and looks like a duck then it is
+  a duck although no one has defined it to be a duck).
+
+: We can define attributes and methods in interface to be optional too
   
+    interface InventoryItem {
+        displayName: string;
+        inventoryType: string;
+        readonly trackingNumber: string;
+        createDate: Date;
+        originalCost?: number;  //optional attribute
+        addNote?: (note: string) => string; //optional function
+    }
+
+    saveInventoryItem({
+            displayName: "MacBook Pro 15 Retina",
+            inventoryType: "computer",
+            trackingNumber: "MBP123456",
+            createDate: new Date(),
+    }); 
+
+ //duck typing into effect, a new object is implicitly considered to 
+  be of type InventoryItem because the its structure matches
+
+: we can define attributes to be read only in interfaces to restrict changes
+
+Enums :
+
+    enum InventoryItemType {
+        Computer = "computer",
+        Furniture = "furniture"
+    }
+
+    interface InventoryItem {
+        displayName: string;
+        inventoryType: InventoryItemType;
+        readonly trackingNumber: string;
+        createDate: Date;
+        originalCost?: number; //optional attribute
+        addNote?: (note: string) => string; //optional method 
+    }
+
+    saveInventoryItem({
+        displayName: "MacBook Pro 15 Retina",
+        inventoryType: InventoryItemType.Computer, //refer to enum items like this
+        trackingNumber: "MBP123456",
+        createDate: new Date(),
+    });
+
+: this will be reflected in the rendered code
+  (function (InventoryItemType) {
+    InventoryItemType["Computer"] = "computer";
+    InventoryItemType["Furniture"] = "furniture";
+  })(InventoryItemType || (InventoryItemType = {}));
+
+Literals 
+: A more simple approach in this case would be to use Literals
+    interface InventoryItem {
+        displayName: string;
+        inventoryType: "computer" | "furniture"; //using literals instead of enums
+        readonly trackingNumber: string;
+        createDate: Date;
+        originalCost?: number; //optional attribute
+        addNote?: (note: string) => string; //optional method 
+    }
+
+    saveInventoryItem({
+        displayName: "MacBook Pro 15 Retina",
+        inventoryType: "computer",
+        trackingNumber: "MBP123456",
+        createDate: new Date(),
+    });
+
+: in case of incorrect value we will get compile time error instead of runtime error
+  which would have been the case if we used js
+
+Union types
+: In case we want a variable to accept more than 1 types 
+ let originalCost: string | number = 425;
+ //only these two types would be acceptible
+ //any would accept all types
+
+: Other way
+ type Cost = string | number; //alias for string and number union
+ let originalCost: Cost = 425;
+
+: However be very careful while using such variables to assign 
+  value to another variable
+  let originalCost : Cost; // no value assigned type can be string or number 
+  let newcost : number = originalCost // will give error 
+
+  solution :
+  if( typeOf originalCost === "number" ) let newcost : number = originalCost
+  else { let newcost = originalCost } //typescript will define newcost to be string
 
 
-
-
-
-
-
-
+//Chapter 3 - CLasses
 
