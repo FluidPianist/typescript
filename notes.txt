@@ -18,6 +18,10 @@ advantages of js:
 
 /** all code along changes have been made by me in Ch01/01_01 folder **/
 
+/*** for changes made in each chapter refer to their respective folders which
+     their status before the beginning of a subchapter and the state 
+     after its end
+
 /////Chapter 01
 
 Start:
@@ -184,5 +188,29 @@ Union types
   else { let newcost = originalCost } //typescript will define newcost to be string
 
 
-//Chapter 3 - CLasses
+//Chapter 3 - Classes
+: checkout the inventoryStore.js file
+
+: attributes which begin with an underscore are private by convention
+  They can still be changed but it is discouraged.
+  note that js does not internally define it as private
+
+: functions whose name starts with an underscore are protected
+  they cannot( or should not) be used directly
+
+(part 2)
+: in typescript all properties must be first defined at the class level
+  unlike js where we can directly use them. Their type should also be defined
+
+: we need to define the param and return type of all variables
+
+Access modifiers in ts ( part 3)
+: unlike js we can impose private, protected and public access rules
+: protected members are accessible within the same class and derived class
+
+Important - Ts is just a superset of js, it does not change how 
+it behaves but adds additional features to it. Despite ts complaining
+about the errors it will still render in js and be executed but in an 
+unexpected way.
+The entire purpose of ts is to listen to its warnings and errors.
 
