@@ -188,7 +188,7 @@ Union types
   else { let newcost = originalCost } //typescript will define newcost to be string
 
 
-//Chapter 3 - Classes
+//Chapter 3 - Classes 
 : checkout the inventoryStore.js file
 
 : attributes which begin with an underscore are private by convention
@@ -213,4 +213,135 @@ it behaves but adds additional features to it. Despite ts complaining
 about the errors it will still render in js and be executed but in an 
 unexpected way.
 The entire purpose of ts is to listen to its warnings and errors.
+
+//Chapter 04 
+
+Part 1 (Generics)
+
+: example in model.ts
+  function clone(source) {
+    const serialized = JSON.stringify(source);
+    return JSON.parse(serialized)
+  }
+
+  const cloned = clone(inventoryItem);
+  We expect cloned to have the same type as InventoryItem after
+  it has been stringyfied and parsed back but it is not the case
+
+: we can make specify the return type of the clone function to 
+  be InventoryItem for our case but if we want to make this function
+  return the exact type of the parameter dynamically we will use Generics.
+  This is somewhat similar to tempelate in c++
+
+  function clone<T> (source: T) : T {
+    const serialized = JSON.stringify(source);
+    return JSON.parse(serialized)
+  } 
+  
+  // we have simply used a Type Variable T, which we can
+    use to refer to the type of the param being passed.
+
+:  To pass multiple types we can do :
+
+   function clone<T, u> (source: T, options: u) : T {
+    const serialized = JSON.stringify(source);
+    return JSON.parse(serialized)
+  }
+
+: We can also extend this concept to interfaces and Js classes
+
+  interfaces KeyValuePair<Tkey, TValue> {
+    Key: TKey;
+    Value: TValue;
+  }
+
+  var keyValue : KeyValue<string,number> = {Key : "something", Value : 1234};
+  
+  class KeyValuePair<Tkey, TValue> {
+    first: TKey;
+    second: TValue;
+  }
+
+Part 2 ( Removing errors from InventoryStore.ts class)
+
+: Some Errors exist because typescript is not expanding it domain to 
+  include functions defined in other js file. To do so we will make
+  changes in the tsconfig file
+
+  {
+    "compilerOptions": {
+        "target": "ES5",
+        "outDir": "dist",
+        "allowJs": true, //allow Ts to read other JS files
+        "checkJs": true  //allow Ts to provide some basic check to other JS files ( although a more robust solution is to convert the entire file to ts)
+    }
+ }
+
+: Part 3 (Adding support for Native Api's) - Refer ch4_03 from now on
+  
+  You will notice an error by ts in recognizing inbuilt js library 
+  functions and variables which are globally defined. 
+  This is because these libraries are not part of the environment ts 
+  is targetting by default. So we can include some of those libraries 
+  in our tsconfig.
+
+  {
+    "compilerOptions": {
+        "target": "es5",
+        "outDir": "dist",
+        "allowJs": true,
+        "checkJs": true,
+        "lib" : [ "ES2015", "DOM","WebWorker"] //ES2015 is es6
+    }
+  }
+
+  es6 has some major enhancement over es5, which helped to build 
+  complex applications. so we have imported the features of js 
+  defined in echma standard 6 which came out in 2015. This also 
+  includes Promises
+
+Part 4 : Adding support for third Party libraries ( Jquery & Vue in our case)
+
+: Error for the Vue variable used in App.js:
+  Simply define a global variable in model.ts 
+  declare var Vue: any;
+
+: This is just a cheat to make typescript happy. We are not checking the
+  implementation of Vue library here. 
+  We might have had to write all the defination in typescript by hand 
+  for a third partly library like Vue to make the checks.
+
+: Luckily, we don't need to write the entire definition by hand, 
+because that more and more libraries are actually including Typescript 
+metadata right in their bundles. So you'll find yourself running 
+into this situation less and less. This means that often the answer 
+to this problem is to use the library's NPM module. This happens 
+to be the case with the view library, which Typescript is complaining about here. 
+
+:
+However, when you come across a library that does not include 
+Typescript metadata, there is an opensource community named 
+DefinitelyTyped, which maintains TypeScript metadata for virtually 
+all of the popular opensource frameworks, and they publish them to 
+the NPM package site under the organization name @types. 
+For example, in order to get the type information for that dollar 
+symbol variable which represents the Jquery library, I can visit 
+npmjs.com, and search for @types, followed by the library name 
+Jquery. And there it is, the top hit. Simply click on that package, 
+copy the console command in the Installation section, and then run 
+it in a terminal in the root folder of your application. This will 
+download the type definitions for the library into the node_modules 
+folder in your application. Typescript will then find and read in these
+type definition files, the files that end in .d.ts, which include 
+the full description of the library and its APIs. With this in 
+place, not only are those errors gone, but I actually have full 
+IntelliSense and auto complete support for the library, including 
+its documentation, right in my editor.
+
+
+  
+
+
+
+
 
